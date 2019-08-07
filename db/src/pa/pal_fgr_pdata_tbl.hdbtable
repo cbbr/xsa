@@ -1,0 +1,6 @@
+COLUMN TABLE "demo.db.pa::pal_fgr_pdata_tbl" (
+	"POSITION" INT, 
+	"SCHEMA_NAME" NVARCHAR(256), 
+	"TYPE_NAME" NVARCHAR(256), 
+	"PARAMETER_TYPE" VARCHAR(7)
+);

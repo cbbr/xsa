@@ -1,0 +1,3 @@
+TYPE "demo.db.pa::pal_fgr_fitted_t" AS TABLE (
+"ID" INT,"Fitted" DOUBLE
+);

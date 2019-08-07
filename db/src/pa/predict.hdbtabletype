@@ -1,0 +1,3 @@
+TYPE "demo.db.pa::pal_fgr_predict_t" AS TABLE (
+"ID" INT,"X1" DOUBLE
+);

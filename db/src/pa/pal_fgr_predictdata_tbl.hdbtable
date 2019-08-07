@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.pa::pal_fgr_predictdata_tbl" (
+	"ID" INT,
+	"X1" DOUBLE
+);

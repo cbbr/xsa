@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.pa::pal_fgr_coefficient_tbl" (
+	"ID" INT,
+	"Ai" DOUBLE
+);

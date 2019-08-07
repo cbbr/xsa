@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.pa::pal_fgr_fitted_tbl" (
+	"ID" INT,
+	"Fitted" DOUBLE
+);
