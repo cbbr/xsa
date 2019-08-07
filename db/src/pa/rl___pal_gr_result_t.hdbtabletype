@@ -1,0 +1,4 @@
+TYPE "demo.db.pa::rl___pal_gr_result_t" AS TABLE (
+	"id" int,
+	"ai" double
+);

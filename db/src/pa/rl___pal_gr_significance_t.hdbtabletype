@@ -1,0 +1,4 @@
+TYPE "demo.db.pa::rl___pal_gr_significance_t" AS TABLE (
+	"name" varchar(50),
+	"value" double
+);

@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.pa::rl___pal_gr_significance_tbl" (
+	"name" varchar(50),
+	"value" double
+);

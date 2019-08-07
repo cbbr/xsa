@@ -1,0 +1,6 @@
+COLUMN TABLE "demo.db.pa::rl___pal_gr_pdata_tbl" (
+	"POSITION" int, 
+	"SCHEMA_NAME" nvarchar(256), 
+	"TYPE_NAME" nvarchar(256), 
+	"PARAMETER_TYPE" varchar(7)
+);

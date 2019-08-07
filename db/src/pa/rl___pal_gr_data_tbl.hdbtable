@@ -1,0 +1,5 @@
+COLUMN TABLE "demo.db.pa::rl___pal_gr_data_tbl" (
+	"id" int,
+	"y" double,
+	"x1" double
+);

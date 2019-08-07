@@ -1,0 +1,4 @@
+TYPE "demo.db.pa::rl___pal_gr_pmmlmodel_t" AS TABLE (
+	"id" int,
+	"model" varchar(5000)
+);

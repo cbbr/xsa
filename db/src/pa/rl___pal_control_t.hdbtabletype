@@ -1,0 +1,6 @@
+TYPE "demo.db.pa::rl___pal_control_t" AS TABLE (
+	"name" varchar(100), 
+	"intargs" int, 
+	"doubleargs" double,
+	"stringargs" varchar(100)
+);

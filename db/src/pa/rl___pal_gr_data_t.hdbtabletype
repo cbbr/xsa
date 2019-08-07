@@ -1,0 +1,5 @@
+TYPE "demo.db.pa::rl___pal_gr_data_t" AS TABLE (
+	"id" int,
+	"y" double,
+	"x1" double
+);

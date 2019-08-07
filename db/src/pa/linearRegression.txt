@@ -1,0 +1,73 @@
+set schema DEMODB;
+
+-- drop type pal_gr_data_t;
+create type rl___pal_gr_data_t as table( "id" int,"y" double,"x1" double);
+
+--drop type pal_gr_result_t;
+create type rl___pal_gr_result_t as table("id" int,"ai" double);
+
+--drop type pal_gr_fitted_t;
+create type rl___pal_gr_fitted_t as table("id" int,"fitted" double);
+
+--drop type pal_gr_significance_t;
+create type rl___pal_gr_significance_t as table("name" varchar(50),"value" double);
+
+--drop type pal_control_t;
+create type rl___pal_control_t as table("name" varchar(100), "intargs" int, "doubleargs" double,"stringargs" varchar(100));
+
+--drop type pal_gr_pmmlmodel_t;
+create type rl___pal_gr_pmmlmodel_t as table("id" int,"model" varchar(5000));
+
+-- drop table rl___pal_gr_pdata_tbl;
+create column table "demo.db.pa::rl___pal_gr_pdata_tbl" ("position" int, "schema_name" nvarchar(256), "type_name" nvarchar(256), "parameter_type" varchar(7));
+-- TRUNCATE TABLE "demo.db.pa::rl___pal_gr_pdata_tbl";
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (1,'DEMODB','demo.db.pa::rl___pal_gr_data_t','in');
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (2,'DEMODB','demo.db.pa::rl___pal_control_t','in');
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (3,'DEMODB','demo.db.pa::rl___pal_gr_result_t','out');
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (4,'DEMODB','demo.db.pa::rl___pal_gr_fitted_t','out'); 
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (5,'DEMODB','demo.db.pa::rl___pal_gr_significance_t','out'); 
+insert into "demo.db.pa::rl___pal_gr_pdata_tbl"  values (6,'DEMODB','demo.db.pa::rl___pal_gr_pmmlmodel_t','out'); 
+
+CALL SYS.AFLLANG_WRAPPER_PROCEDURE_DROP('DEMODB','PAL_GEOR_PROC');
+CALL SYS.AFLLANG_WRAPPER_PROCEDURE_CREATE('AFLPAL','GEOREGRESSION','DEMODB','PAL_GEOR_PROC',"demo.db.pa::rl___pal_gr_pdata_tbl");
+
+call sys.afllang_wrapper_procedure_drop('DEMODB','pal_geor_proc');
+call sys.afllang_wrapper_procedure_create('aflpal','georegression','DEMODB','pal_geor_proc',"demo.db.pa::rl___pal_gr_pdata_tbl" );
+
+
+drop table #pal_control_tbl;
+create local temporary column table #pal_control_tbl ("name" varchar(100), "intargs" int, "doubleargs" double,"stringargs" varchar(100));
+insert into #pal_control_tbl values ('thread_number',8,null,null);
+insert into #pal_control_tbl values ('pmml_export',2,null,null);
+
+--drop table rl___pal_gr_data_tbl;
+create column table rl___pal_gr_data_tbl ( "id" int,"y" double,"x1" double);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (0,1.1,1);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (1,4.2,2);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (2,8.9,3);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (3,16.3,4);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (4,24,5);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (5,36,6);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (6,48,7);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (7,64,8);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (8,80,9);
+insert into "demo.db.pa::rl___pal_gr_data_tbl" values (9,101,10);
+
+--drop table pal_gr_results_tbl;
+create column table rl___pal_gr_results_tbl ("id" int,"ai" double);
+
+--drop table pal_gr_fitted_tbl;
+create column table rl___pal_gr_fitted_tbl ("id" int,"fitted" double);
+
+-- drop table pal_gr_significance_tbl;
+create column table rl___pal_gr_significance_tbl ("name" varchar(50),"value" double);
+
+--drop table pal_gr_pmmlmodel_tbl;
+create column table rl___pal_gr_pmmlmodel_tbl ("id" int, "pmmlmodel" varchar(5000));
+
+CALL DEMODB.PAL_GEOR_PROC("demo.db.pa::rl___pal_gr_data_tbl", "#PAL_CONTROL_TBL", "demo.db.pa::rl___pal_gr_results_tbl", "demo.db.pa::rl___pal_gr_fitted_tbl", "demo.db.pa::rl___pal_gr_significance_tbl", "demo.db.pa::rl___pal_gr_pmmlmodel_tbl") with overview;
+
+select * from "demo.db.pa::rl___pal_gr_results_tbl";
+select * from "demo.db.pa::rl___pal_gr_fitted_tbl";
+select * from  "demo.db.pa::rl___pal_gr_significance_tbl";
+--select * from "demo.db.pa::rl___pal_gr_pmmlmodel_tbl";
