@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::fdSalesByCustomer" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="cvSalesByCustomer"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.md::v.tb.salesOrders">
+    <resourceUri>demo.db.md::v.tb.salesOrders</resourceUri>
+  </DataSource>
+  <DataSource id="demo.db.md::v.tb.customer">
+    <resourceUri>demo.db.md::v.tb.customer</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:AggregationView" id="salesbase">
+    <viewAttributes>
+      <viewAttribute id="idCalendar"/>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute id="vlSoldItems"/>
+      <viewAttribute id="vlSalesAmount"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::v.tb.salesOrders">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCalendar" source="CALENDAR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSoldItems" source="ITEMS_SOLD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSalesAmount" source="SALES_AMOUNT"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="customerbase">
+    <viewAttributes>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute id="nmCustomer"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::v.tb.customer">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="nmCustomer" source="CUSTOMER_NAME"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="join" cardinality="CN_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="idCalendar"/>
+      <viewAttribute id="nmCustomer"/>
+      <viewAttribute id="vlSoldItems" aggregationType="sum"/>
+      <viewAttribute id="vlSalesAmount" aggregationType="sum"/>
+      <viewAttribute hidden="true" id="JOIN$idCustomer$idCustomer"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="salesbase">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
+    </input>
+    <input node="customerbase">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
+    </input>
+    <joinAttribute name="JOIN$idCustomer$idCustomer"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="join">
+  <attributes>
+    <attribute id="idCalendar" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="idCalendar"/>
+      <keyMapping columnObjectName="join" columnName="idCalendar"/>
+    </attribute>
+    <attribute id="nmCustomer" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="nmCustomer"/>
+      <keyMapping columnObjectName="join" columnName="nmCustomer"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="vlSoldItems" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="vlSoldItems"/>
+      <measureMapping columnObjectName="join" columnName="vlSoldItems"/>
+    </measure>
+    <measure id="vlSalesAmount" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="vlSalesAmount"/>
+      <measureMapping columnObjectName="join" columnName="vlSalesAmount"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221.11302679000914" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="salesbase" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.00000000000006" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="customerbase" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="join" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="salesbase" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="175"/>
+    </shape>
+    <shape modelObjectName="customerbase" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="221"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

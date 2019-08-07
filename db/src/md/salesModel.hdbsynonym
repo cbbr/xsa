@@ -1,0 +1,14 @@
+{
+  "demo.db.md::v.tb.salesOrders": {
+    "target": {
+      "object": "v.tb.salesOrders",
+      "schema": "I865263"
+    }
+  },
+  "demo.db.md::v.tb.customer": {
+    "target": {
+      "object": "v.tb.customer",
+      "schema": "I865263"
+    }
+  }
+}
