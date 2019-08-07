@@ -1,0 +1,18 @@
+namespace demo.db;
+
+/*@@layout{"layoutInfo":{"x":-245,"y":-257}}*/
+context salesOrders {
+
+	entity customer {
+	    key idCustomer    : Integer not null;
+	        nmCustomer    : String(100);
+	        salesCustomer : association[*, 0..1] to sales { idCustomer };
+	};
+	
+	/*@@layout{"layoutInfo":{"x":-23,"y":-196.5}}*/
+	entity sales {
+	    key idOrder       : Integer64 not null;
+	        idCustomer    : Integer;
+	        vlSalesAmount : Decimal(10, 2);
+	};
+}; 
