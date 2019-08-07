@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.sp::geoStGeometry" 
+(
+ SHAPE ST_GEOMETRY 
+)

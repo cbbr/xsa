@@ -1,4 +1,4 @@
-namespace demo.db;
+namespace demo.db.de;
 
 /*@@layout{"layoutInfo":{"x":-245,"y":-257}}*/
 context salesOrders {

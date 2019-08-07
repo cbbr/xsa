@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.sp::fdSpatialJoinDemo" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="fdSpatialJoinDemo"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.sp::geoStPoint">
+    <resourceUri>demo.db.sp::geoStPoint</resourceUri>
+  </DataSource>
+  <DataSource id="demo.db.sp::geoStGeometry">
+    <resourceUri>demo.db.sp::geoStGeometry</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="points">
+    <viewAttributes>
+      <viewAttribute id="COORDINATE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.sp::geoStPoint">
+      <mapping xsi:type="Calculation:AttributeMapping" target="COORDINATE" source="COORDINATE"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="geometries">
+    <viewAttributes>
+      <viewAttribute id="SHAPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.sp::geoStGeometry">
+      <mapping xsi:type="Calculation:AttributeMapping" target="SHAPE" source="SHAPE"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="spJoin" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="idCoordinate"/>
+      <viewAttribute id="idShapes"/>
+      <viewAttribute hidden="true" id="JOIN$COORDINATE$SHAPE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="points">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCoordinate" source="COORDINATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$COORDINATE$SHAPE" source="COORDINATE"/>
+    </input>
+    <input node="geometries">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idShapes" source="SHAPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$COORDINATE$SHAPE" source="SHAPE"/>
+    </input>
+    <joinAttribute name="JOIN$COORDINATE$SHAPE">
+      <spatialJoinProperties predicate="CROSSES" predicateEvaluatesTo="false"/>
+    </joinAttribute>
+  </calculationView>
+</calculationViews>
+<logicalModel id="spJoin">
+  <attributes>
+    <attribute id="idCoordinate" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="COORDINATE"/>
+      <keyMapping columnObjectName="spJoin" columnName="idCoordinate"/>
+    </attribute>
+    <attribute id="idShapes" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="SHAPE"/>
+      <keyMapping columnObjectName="spJoin" columnName="idShapes"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221.11302679000914" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="points" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="geometries" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.00000000000006" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="spJoin" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="points" modelObjectNameSpace="spJoin" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="100"/>
+    </shape>
+    <shape modelObjectName="geometries" modelObjectNameSpace="spJoin" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="128.025390625"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

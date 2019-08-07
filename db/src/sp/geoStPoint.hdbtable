@@ -1,0 +1,4 @@
+COLUMN TABLE "demo.db.sp::geoStPoint" 
+(
+COORDINATE ST_POINT
+)
