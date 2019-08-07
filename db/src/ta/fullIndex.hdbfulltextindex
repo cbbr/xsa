@@ -1,0 +1,6 @@
+-- Creating fulltext index from "ta.tb.sample1" table
+FULLTEXT INDEX "demo.db.ta::fullTextIndex" ON  "demo.db.ta::text"("string")
+CONFIGURATION 'demo.db.ta::configText'
+LANGUAGE DETECTION ('EN')
+-- play text analysis on
+TEXT ANALYSIS ON;

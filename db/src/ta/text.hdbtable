@@ -1,0 +1,6 @@
+COLUMN TABLE "demo.db.ta::text" 
+(
+   "id" INTEGER, 
+   "string" VARCHAR(200),
+   PRIMARY KEY ("id") 
+)
