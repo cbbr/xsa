@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.ta::fdTextAnalysis" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="fdTextAnalysis"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="$TA_demo.db.ta::fullTextIndex">
+    <resourceUri>$TA_demo.db.ta::fullTextIndex</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="ta">
+    <viewAttributes>
+      <viewAttribute id="TA_TOKEN"/>
+      <viewAttribute id="TA_TYPE"/>
+      <viewAttribute id="TA_COUNTER"/>
+      <viewAttribute id="TA_CREATED_AT"/>
+      <viewAttribute id="TA_OFFSET"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="$TA_demo.db.ta::fullTextIndex">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_TOKEN" source="TA_TOKEN"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_TYPE" source="TA_TYPE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_COUNTER" source="TA_COUNTER"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_CREATED_AT" source="TA_CREATED_AT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TA_OFFSET" source="TA_OFFSET"/>
+    </input>
+  </calculationView>
+</calculationViews>
+<logicalModel id="ta">
+  <attributes>
+    <attribute id="TA_TOKEN" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_TOKEN"/>
+      <keyMapping columnObjectName="ta" columnName="TA_TOKEN"/>
+    </attribute>
+    <attribute id="TA_TYPE" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_TYPE"/>
+      <keyMapping columnObjectName="ta" columnName="TA_TYPE"/>
+    </attribute>
+    <attribute id="TA_COUNTER" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_COUNTER"/>
+      <keyMapping columnObjectName="ta" columnName="TA_COUNTER"/>
+    </attribute>
+    <attribute id="TA_CREATED_AT" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_CREATED_AT"/>
+      <keyMapping columnObjectName="ta" columnName="TA_CREATED_AT"/>
+    </attribute>
+    <attribute id="TA_OFFSET" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TA_OFFSET"/>
+      <keyMapping columnObjectName="ta" columnName="TA_OFFSET"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="ta" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-137" y="278"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>
