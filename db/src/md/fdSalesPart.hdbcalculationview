@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::fdSalesPart" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" propagateInstantiation="true">
+<descriptions defaultDescription="fdSalesPart"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.md::v.tb.p.salesOrders" partitionedExecution="true">
+    <partitionAttributeName>CALENDAR_ID</partitionAttributeName>
+    <resourceUri>demo.db.md::v.tb.p.salesOrders</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="startPar">
+    <viewAttributes>
+      <viewAttribute id="ORDER_ID"/>
+      <viewAttribute id="CALENDAR_ID"/>
+      <viewAttribute id="CUSTOMER_ID"/>
+      <viewAttribute id="ITEM_ID"/>
+      <viewAttribute id="ITEMS_SOLD"/>
+      <viewAttribute id="SALES_AMOUNT"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::v.tb.p.salesOrders"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="stopPar" partitionedExecution="true">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMER_ID"/>
+      <viewAttribute id="CALENDAR_ID"/>
+      <viewAttribute id="ITEMS_SOLD" aggregationType="sum"/>
+      <viewAttribute id="SALES_AMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="aggregation" emptyUnionBehavior="NO_ROW"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:AggregationView" id="aggregation">
+    <viewAttributes>
+      <viewAttribute id="CUSTOMER_ID"/>
+      <viewAttribute id="CALENDAR_ID"/>
+      <viewAttribute id="ITEMS_SOLD" aggregationType="sum"/>
+      <viewAttribute id="SALES_AMOUNT" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="startPar"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="stopPar">
+  <attributes>
+    <attribute id="CUSTOMER_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_ID"/>
+      <keyMapping columnObjectName="stopPar" columnName="CUSTOMER_ID"/>
+    </attribute>
+    <attribute id="CALENDAR_ID" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CALENDAR_ID"/>
+      <keyMapping columnObjectName="stopPar" columnName="CALENDAR_ID"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="ITEMS_SOLD" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="ITEMS_SOLD"/>
+      <measureMapping columnObjectName="stopPar" columnName="ITEMS_SOLD"/>
+    </measure>
+    <measure id="SALES_AMOUNT" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="SALES_AMOUNT"/>
+      <measureMapping columnObjectName="stopPar" columnName="SALES_AMOUNT"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="92" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="startPar" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="427"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="stopPar" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="aggregation" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="322"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

@@ -10,5 +10,11 @@
       "object": "v.tb.customer",
       "schema": "I865263"
     }
+  },
+  "demo.db.md::v.tb.p.salesOrders": {
+    "target": {
+      "object": "v.tb.p.salesOrders",
+      "schema": "I865263"
+    }
   }
 }

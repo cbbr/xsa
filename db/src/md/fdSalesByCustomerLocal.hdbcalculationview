@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::fdSalesByCustomerLocal" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" propagateInstantiation="true">
+<descriptions defaultDescription="cvSalesByCustomer"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.md::v.tb.di.p.salesOrders" partitionedExecution="true">
+    <partitionAttributeName>CALENDAR_ID</partitionAttributeName>
+    <resourceUri>demo.db.md::v.tb.di.p.salesOrders</resourceUri>
+  </DataSource>
+  <DataSource id="demo.db.md::v.tb.di.p.customer">
+    <resourceUri>demo.db.md::v.tb.di.p.customer</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:AggregationView" id="StartParallelism">
+    <viewAttributes>
+      <viewAttribute id="idCalendar"/>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute id="vlSoldItems"/>
+      <viewAttribute id="vlSalesAmount"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::v.tb.di.p.salesOrders">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCalendar" source="CALENDAR_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSoldItems" source="ITEMS_SOLD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSalesAmount" source="SALES_AMOUNT"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="withoutParallelism">
+    <viewAttributes>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute id="nmCustomer"/></viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::v.tb.di.p.customer">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="nmCustomer" source="CUSTOMER_NAME"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="join" cardinality="CN_N" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="idCalendar"/>
+      <viewAttribute id="nmCustomer"/>
+      <viewAttribute id="vlSoldItems" aggregationType="sum"/>
+      <viewAttribute id="vlSalesAmount" aggregationType="sum"/>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute hidden="true" id="JOIN$idCustomer$idCustomer"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="StartParallelism">
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
+    </input>
+    <input node="withoutParallelism">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="idCustomer"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
+    </input>
+    <joinAttribute name="JOIN$idCustomer$idCustomer"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="stopParallelism" partitionedExecution="true">
+    <viewAttributes>
+      <viewAttribute id="idCalendar"/>
+      <viewAttribute id="nmCustomer"/>
+      <viewAttribute id="vlSoldItems" aggregationType="sum"/>
+      <viewAttribute id="vlSalesAmount" aggregationType="sum"/>
+      <viewAttribute id="idCustomer"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="join" emptyUnionBehavior="NO_ROW"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="stopParallelism">
+  <attributes>
+    <attribute id="idCalendar" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="idCalendar"/>
+      <keyMapping columnObjectName="stopParallelism" columnName="idCalendar"/>
+    </attribute>
+    <attribute id="nmCustomer" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="nmCustomer"/>
+      <keyMapping columnObjectName="stopParallelism" columnName="nmCustomer"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="vlSoldItems" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="vlSoldItems"/>
+      <measureMapping columnObjectName="stopParallelism" columnName="vlSoldItems"/>
+    </measure>
+    <measure id="vlSalesAmount" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="vlSalesAmount"/>
+      <measureMapping columnObjectName="stopParallelism" columnName="vlSalesAmount"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="241" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="StartParallelism" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="501"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="withoutParallelism" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="501"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="join" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="222" y="341"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="StartParallelism" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="175"/>
+    </shape>
+    <shape modelObjectName="withoutParallelism" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="221"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="stopParallelism" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="222" y="236"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

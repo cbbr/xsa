@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::fdSalesByCustomer" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::fdSales" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="false" propagateInstantiation="true">
 <descriptions defaultDescription="cvSalesByCustomer"/>
 <localVariables/>
 <variableMappings/>
@@ -12,7 +12,7 @@
   </DataSource>
 </dataSources>
 <calculationViews>
-  <calculationView xsi:type="Calculation:AggregationView" id="salesbase">
+  <calculationView xsi:type="Calculation:AggregationView" id="salesBase">
     <viewAttributes>
       <viewAttribute id="idCalendar"/>
       <viewAttribute id="idCustomer"/>
@@ -28,7 +28,7 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="vlSalesAmount" source="SALES_AMOUNT"/>
     </input>
   </calculationView>
-  <calculationView xsi:type="Calculation:ProjectionView" id="customerbase">
+  <calculationView xsi:type="Calculation:ProjectionView" id="customer">
     <viewAttributes>
       <viewAttribute id="idCustomer"/>
       <viewAttribute id="nmCustomer"/></viewAttributes>
@@ -45,14 +45,16 @@
       <viewAttribute id="nmCustomer"/>
       <viewAttribute id="vlSoldItems" aggregationType="sum"/>
       <viewAttribute id="vlSalesAmount" aggregationType="sum"/>
+      <viewAttribute id="idCustomer"/>
       <viewAttribute hidden="true" id="JOIN$idCustomer$idCustomer"/>
     </viewAttributes>
     <calculatedViewAttributes/>
     <restrictedViewAttributes/>
-    <input node="salesbase">
+    <input node="salesBase">
       <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
     </input>
-    <input node="customerbase">
+    <input node="customer">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="idCustomer"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$idCustomer$idCustomer" source="idCustomer"/>
     </input>
     <joinAttribute name="JOIN$idCustomer$idCustomer"/>
@@ -87,31 +89,30 @@
 <layout>
   <shapes>
     <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
-      <upperLeftCorner x="221.11302679000914" y="112"/>
+      <upperLeftCorner x="221" y="112"/>
     
       <rectangleSize width="160"/>
     </shape>
   
-    <shape expanded="true" modelObjectName="salesbase" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="302.00000000000006" y="376.9999988079071"/>
+    <shape expanded="true" modelObjectName="salesBase" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="376"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape expanded="true" modelObjectName="customerbase" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="92" y="376.9999988079071"/>
+    <shape expanded="true" modelObjectName="customer" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302" y="376"/>
       <rectangleSize height="30" width="160"/>
     </shape>
     <shape expanded="true" modelObjectName="join" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <upperLeftCorner x="221" y="217"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape modelObjectName="salesbase" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+    <shape modelObjectName="salesBase" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="20" y="30"/>
       <rectangleSize width="175"/>
     </shape>
-    <shape modelObjectName="customerbase" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
+    <shape modelObjectName="customer" modelObjectNameSpace="join" modelObjectType="JoinNodeInput">
       <upperLeftCorner x="320" y="30"/>
       <rectangleSize width="221"/>
-    </shape>
-  </shapes>
+    </shape></shapes>
 </layout>
 </Calculation:scenario>
