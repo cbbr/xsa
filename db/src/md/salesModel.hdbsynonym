@@ -16,5 +16,17 @@
       "object": "v.tb.p.salesOrders",
       "schema": "I865263"
     }
+  },
+  "demo.db.md::tempDimension": {
+    "target": {
+      "object": "tempDim",
+      "schema": "I865263"
+    }
+  },
+  "demo.db.md::fact": {
+    "target": {
+      "object": "fact",
+      "schema": "I865263"
+    }
   }
 }

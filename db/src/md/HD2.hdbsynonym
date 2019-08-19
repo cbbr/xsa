@@ -1,0 +1,8 @@
+{
+  "demo.db.md::v.tb.partition.salesOrders": {
+    "target": {
+      "object": "v.tb.partition.salesOrders",
+      "schema": "I865263"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::dimCustomerTemp" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="dimCustomerTempJoin"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.md::tempDimension">
+    <resourceUri>demo.db.md::tempDimension</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews/>
+<logicalModel id="demo.db.md::tempDimension">
+  <attributes>
+    <attribute id="idCustomer" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_ID"/>
+      <keyMapping columnObjectName="tempDimension" columnName="CUSTOMER_ID"/>
+    </attribute>
+    <attribute id="dtFrom" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATE_FROM"/>
+      <keyMapping columnObjectName="tempDimension" columnName="DATE_FROM"/>
+    </attribute>
+    <attribute id="dtTo" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DATE_TO"/>
+      <keyMapping columnObjectName="tempDimension" columnName="DATE_TO"/>
+    </attribute>
+    <attribute id="nmCustomer" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_NAME"/>
+      <keyMapping columnObjectName="tempDimension" columnName="CUSTOMER_NAME"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

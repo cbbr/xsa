@@ -1,0 +1,11 @@
+namespace demo.db.md;
+using "demo.db.md::v.tb.salesOrders" as salesOrder; 
+
+view cdssalesOrders as select from salesOrder {
+	"ORDER_ID",
+	"CALENDAR_ID",
+	"CUSTOMER_ID",
+	"ITEM_ID",
+	"ITEMS_SOLD",
+	"SALES_AMOUNT"
+}; 

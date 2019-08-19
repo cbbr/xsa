@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="demo.db.md::prSalesTempJoin" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="prSalesTempJoin"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="demo.db.md::fact">
+    <resourceUri>demo.db.md::fact</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:AggregationView" id="fact">
+    <viewAttributes>
+      <viewAttribute id="idCustomer"/>
+      <viewAttribute id="dtTransaction"/>
+      <viewAttribute id="vlSoldItems" aggregationType="sum"/>
+      <viewAttribute id="vlSalesAmount" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <input node="demo.db.md::fact">
+      <mapping xsi:type="Calculation:AttributeMapping" target="idCustomer" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="dtTransaction" source="TRANSACTION_DATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSoldItems" source="ITEMS_SOLD"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="vlSalesAmount" source="SALES_AMOUNT"/>
+    </input>
+  </calculationView>
+</calculationViews>
+<logicalModel id="fact">
+  <attributes>
+    <attribute id="dtTransaction" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TRANSACTION_DATE"/>
+      <keyMapping columnObjectName="fact" columnName="dtTransaction"/>
+    </attribute>
+    <attribute id="idfCustomer" hidden="true" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_ID"/>
+      <keyMapping columnObjectName="fact" columnName="idCustomer"/>
+    </attribute>
+    <attribute id="idCustomer$local">
+      <descriptions defaultDescription="CUSTOMER_ID"/>
+      <keyMapping columnObjectName="fact" columnName="idCustomer"/>
+    </attribute>
+    <attribute id="dtTransaction$local">
+      <descriptions defaultDescription="TRANSACTION_DATE"/>
+      <keyMapping columnObjectName="fact" columnName="dtTransaction"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="vlSalesAmount" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="SALES_AMOUNT"/>
+      <measureMapping columnObjectName="fact" columnName="vlSalesAmount"/>
+    </measure>
+    <measure id="vlSoldItems" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="ITEMS_SOLD"/>
+      <measureMapping columnObjectName="fact" columnName="vlSoldItems"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+  <sharedDimensions>
+    <logicalJoin associatedObjectUri="demo.db.md::dimCustomerTemp">
+      <attributes>
+        <attributeRef>idCustomer$local</attributeRef>
+        <attributeRef>dtTransaction$local</attributeRef>
+        <attributeRef>dtTransaction$local</attributeRef>
+      </attributes>
+      <associatedAttributeNames>
+        <attributeName>idCustomer</attributeName>
+        <attributeName>dtFrom</attributeName>
+        <attributeName>dtTo</attributeName>
+      </associatedAttributeNames>
+      <properties cardinality="CN_N" joinType="inner" joinOperator="Equal"/>
+      <temporalJoinProperties temporalElementName="dtTransaction" fromElementName="dtFrom" toElementName="dtTo" temporalCondition="INCLUDE_BOTH"/>
+      <associatedAttributeFeatures>
+        <attributeReference attributeName="dtTo" hidden="true"/>
+        <attributeReference attributeName="dtFrom" hidden="true"/>
+        <attributeReference attributeName="idCustomer" hidden="true"/>
+      </associatedAttributeFeatures>
+    </logicalJoin>
+  </sharedDimensions>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="92" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="fact" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="232"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="fact" modelObjectNameSpace="StarJoinViewNodeInput" modelObjectType="repository">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="100"/>
+    </shape>
+    <shape modelObjectName="demo.db.md::dimCustomerTemp" modelObjectNameSpace="StarJoinViewNodeSharedCV" modelObjectType="repository">
+      <upperLeftCorner x="920" y="30"/>
+      <rectangleSize width="251"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>  
